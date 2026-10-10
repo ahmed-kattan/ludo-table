@@ -1,0 +1,13 @@
+{
+ "title": "Ludo at the Table",
+ "short": "Ludo at the Table",
+ "description": "Playing Ludo well and playing it online: rules disputes, house rules, tournaments and nights with family far away. Notes by Ahmed Moaz.",
+ "canonical_base": "https://ludo-table.ahmedalkattan105.deno.net/",
+ "base": "/",
+ "blurb": "Notes on playing Ludo with real people: which rules to settle before the first throw, how to run a family Ludo night across two cities, and what changes when the board is on a screen instead of a table.",
+ "footer": "Written by Ahmed Moaz.",
+ "about": [
+  "I am Ahmed Moaz. I build Boardit, a small site of free browser games that includes Ludo.",
+  "This blog is about Ludo as people actually play it: rules arguments, house rules, family nights and playing online with friends. Where a claim depends on how one particular version works, the note says so."
+ ]
+}

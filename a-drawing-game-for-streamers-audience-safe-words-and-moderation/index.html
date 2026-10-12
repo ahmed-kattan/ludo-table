@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A drawing game for streamers: audience-safe words and moderation</title>
+<meta name="description" content="A drawing game online can work well on a stream, but only if you decide who sees which words before you go live. In Draw and Guess, which seats 2 to 12 pla">
+<link rel="canonical" href="https://ludo-table.ahmedalkattan105.deno.net/a-drawing-game-for-streamers-audience-safe-words-and-moderation/">
+<style>body{max-width:44rem;margin:2rem auto;padding:0 1rem;font:17px/1.65 -apple-system,Segoe UI,Roboto,sans-serif;color:#222;background:#fff}a{color:#0b5cad}h1{font-size:1.75rem;line-height:1.25}h2{font-size:1.25rem;margin-top:2rem}table{border-collapse:collapse;margin:1rem 0}td,th{border:1px solid #ccc;padding:.3rem .5rem;text-align:left}header,footer{font-size:.9rem;color:#666}code{background:#f3f3f3;padding:0 .2rem}</style>
+</head>
+<body>
+<header><a href="/">Ludo at the Table</a> &middot; by Ahmed Moaz &middot; <a href="/about/">About</a></header>
+<main>
+<article>
+<h1>A drawing game for streamers: audience-safe words and moderation</h1>
+<p><small>Ahmed Moaz &middot; 12 October 2026</small></p>
+<p>A drawing game online can work well on a stream, but only if you decide who sees which words before you go live. In Draw and Guess, which seats 2 to 12 players, the host controls four things: a private table, a hand-written word list, the guest list, and whether the room code ever appears on screen. The game does not filter what players type. So the safe setup is the one where you choose every word and every seat yourself.</p>
+<h2>Start with the word list</h2>
+<p>Draw and Guess ships with its own word bank, covering things such as objects, animals, food, places, brands, apps and parts of the body. The words were picked to be quick to sketch. It was not written with a particular platform's rules in mind, and I have not screened it against any.</p>
+<p>The host can type their own list instead. Rules for that list, from the code:</p>
+<ul><li>Words are separated by commas.</li><li>Each word is 1 to 32 characters.</li><li>Duplicates are dropped, so "Cat, cat" counts once.</li><li>With at least ten different words, the table can use the list on its own, with none of the built-in words mixed in.</li><li>The rest of the table never sees the list as a list. Words reach it only as turns come up.</li></ul>
+<p>For a stream, I would use the list on its own. Then every word that can come up is one you wrote. Ten different words is the minimum, and thirty is a safer number for a long session, since repeats come around quickly otherwise.</p>
+<h3>A test for each word</h3>
+<p>Before a word goes on the list, ask four questions.</p>
+<ol><li>Can it be drawn without anatomy, a real person or a logo that someone might dispute?</li><li>Is it tied to a news event or a joke that only some of your viewers will get?</li><li>Do its partial letters read badly? As the timer counts down the game uncovers as many as three letters, so fragments of the word are visible to the table. Say them out loud with the gaps.</li><li>Would you be comfortable if a viewer clipped the drawing without the word?</li></ol>
+<p>One more point about the screen you share. The host decides whether the drawer sees two, three, four or five words, and the drawer picks one. If you capture your whole screen, viewers see what you see, including the words you are offered. Keep the game in a window that is not captured, or let a guest draw.</p>
+<h2>Who sits at the table</h2>
+<p>A table seats 2 to 12 players, and the host picks 4, 6, 8, 10 or 12 seats. Viewers in your stream chat cannot guess unless they hold a seat, so the real question is how you hand out seats.</p>
+<p>The room code works like a key: anyone who has it can sit down. Tables show up on public lists unless the host switches the table to private, and a private table admits only those who hold the code. Three habits follow from that:</p>
+<ul><li>Make the table private before you share anything.</li><li>Send the code to the chosen players in a direct message. Do not show it on screen or paste it into chat.</li><li>If a code leaks, close the table and open a new one.</li></ul>
+<p>A simple way to pick players is to draw names from your chat and send each winner the code privately. It is fair and it keeps you out of the argument.</p>
+<h2>What the game does not screen</h2>
+<p>This is the limit you need to know about. The code screens players' typed names, but only before the public open-table lists show them: an insult, a slur, a link or a long number is swapped for a neutral name there. On a private table nothing is listed, so that screen does nothing for you.</p>
+<p>I searched the code for a filter on guesses, on chat lines and on custom words, and found none. A guess is capped at 100 characters and a player can send 60 lines per drawing, but what those lines say is up to the player. The terms of use ask people not to use chat, names, word lists or drawings to harass or to post sexual or hateful content. A terms page is a rule, not a filter.</p>
+<p>I also did not read any streaming platform's own rules, so I cannot say what yours allows. Read them.</p>
+<h2>How to remove a player</h2>
+<p>The tools are simple and they differ by moment.</p>
+<p>In the lobby, the host can remove a player directly. A removed player cannot see the room again or sit back down.</p>
+<p>During a game, the table votes. The number of votes needed is the number of players minus two, with a floor of two. At four players that is two votes. At twelve it is ten. So a vote is fast at a small table and slow at a full one, which is one more reason to keep a stream table small and to choose its players beforehand.</p>
+<h2>A checklist for the night</h2>
+<ul><li>Write the word list yourself, thirty words or more, and say each one out loud.</li><li>Set the table to private.</li><li>Choose seats ahead of time and send the code privately.</li><li>Keep the drawer's screen out of the capture.</li><li>Agree one rule with the table in advance: anyone who breaks it is voted out and does not get the code again.</li></ul>
+<h2>Try it before you go live</h2>
+<p>Run one test game with friends, two or three is enough, and a list of ten harmless words. Watch how the letters appear on the clock. If you want to run a private table before you go live, <a href="https://playboardit.com/">Boardit</a> is free and runs in a browser. Then you will know what your audience sees, and what they never do.</p>
+<p><em>Written for Boardit's maker, Ahmed Moaz, with AI help. The game facts were checked against the game's code.</em></p>
+</article>
+</main>
+<footer><p>Written by Ahmed Moaz.</p></footer>
+</body>
+</html>

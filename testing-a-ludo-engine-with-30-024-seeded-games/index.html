@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Testing a Ludo engine with 30,024 seeded games</title>
+<meta name="description" content="You can test a rules engine by playing it against itself thousands of times with a die you control, and stopping at the first move it refuses. The Ludo eng">
+<link rel="canonical" href="https://ludo-table.ahmedalkattan105.deno.net/testing-a-ludo-engine-with-30-024-seeded-games/">
+<style>body{max-width:44rem;margin:2rem auto;padding:0 1rem;font:17px/1.65 -apple-system,Segoe UI,Roboto,sans-serif;color:#222;background:#fff}a{color:#0b5cad}h1{font-size:1.75rem;line-height:1.25}h2{font-size:1.25rem;margin-top:2rem}table{border-collapse:collapse;margin:1rem 0}td,th{border:1px solid #ccc;padding:.3rem .5rem;text-align:left}header,footer{font-size:.9rem;color:#666}code{background:#f3f3f3;padding:0 .2rem}</style>
+</head>
+<body>
+<header><a href="/">Ludo at the Table</a> &middot; by Ahmed Moaz &middot; <a href="/about/">About</a></header>
+<main>
+<article>
+<h1>Testing a Ludo engine with 30,024 seeded games</h1>
+<p><small>Ahmed Moaz &middot; 13 October 2026</small></p>
+<p>You can test a rules engine by playing it against itself thousands of times with a die you control, and stopping at the first move it refuses. The Ludo engine behind my site went through exactly that on 29 September 2026: 30,024 computer-played games, about 18 million calls to the rules function, and not one rejected move. A bug in Ludo with friends shows up as a stuck table, the worst kind. The useful part here is how the run is built, so that the number means something.</p>
+<h2>How do you test a rules engine with seeded games?</h2>
+<p>Give the engine a fixed source of randomness, let simple computer players choose every move, and make the run crash on any illegal action. If it finishes, every game was legal from start to end. If it crashes, the seed in the error message replays the failure exactly.</p>
+<p>That only works if the engine is a pure function. Ludo's is: <code>applyAction(state, action, ctx)</code>. It clones the state, applies one action under the Ludo rules and returns either the new state with its events, or an error. It reads no clock and calls no random function of its own. The die and the time both arrive through <code>ctx</code>, which is the whole trick.</p>
+<p>The runner's loop is short:</p>
+<pre><code>while (state.phase !== &#x27;ended&#x27; &amp;&amp; actions &lt; 100_000) {
+  const action = pickAction(state);            // simplified: ROLL, or MOVE with a chosen pawn
+  const result = applyAction(state, action, ctx);
+  if (isError(result)) throw new Error(`Rejected ${action.type}; seed=${seed}`);
+  state = result.state;
+  actions += 1;
+}</code></pre>
+<p>Each game stops on a win. The 100,000 limit is a guard against a game that never ends, and the run records any such game as censored. None was.</p>
+<h2>A seeded die and a fake clock</h2>
+<p>The die comes from a small seeded generator of the mulberry32 family. Each game gets its own seed, built as a start value of 202609290001 (the date plus a counter), plus the seat count times a million, plus the game's index. Because the index never reaches a million, the three table sizes can never share a seed.</p>
+<p>The clock is fake too. Every action advances <code>ctx.now</code> by one second from a fixed start. That matters because the turn deadline is stored in the state. If the engine read a real clock, two runs of the same seed would differ, and the one failure you needed to replay would vanish.</p>
+<p>The rules for players who go away changed on 9 October, after this run, and the run has not been repeated since.</p>
+<h2>Why 10,008 games per table size</h2>
+<p>Ten thousand and eight is an odd number to pick. It divides evenly by two, three and four, so a scored test player can sit in every seat equally often: 5,004 games per seat at two seats, 3,336 at three and 2,502 at four. The run's other job was to compare that player with a plain fallback, and an even rotation keeps the seat from tilting the result.</p>
+<p>For the engine test itself the seat balance is a bonus. What matters is that each table size gets the same volume. Game length grows with the number of seats. The means were 306.2 reducer actions at two seats, 570.5 at three and 917.6 at four, so four-seat games make up just over half of the roughly 18 million calls.</p>
+<h2>What "zero rejected" does and does not prove</h2>
+<p>Here is a detail I only noticed on rereading the script. The summary file has a column called <code>invalid_actions</code>, and every row says 0. That column is a constant the script writes, not a counter. The real evidence is the <code>throw</code> inside the loop: a single rejection would have stopped the run with a seed to replay. Finishing is the proof.</p>
+<p>So what does finishing prove? That along the paths these players took, every move the players chose was legal and every game ended. It does not prove the rules are right. A six that leaves no legal move ends the turn, for instance, because a re-roll would hand a stuck player unlimited throws. A seeded run cannot tell you that rule is the one you wanted, only that nothing loops forever. Rules need directed tests, one per claim, and the engine has a test file with 77 cases for that.</p>
+<p>The 100,000 limit has real headroom. In an earlier run of 6,000 four-player games in August 2026, against an older build, the longest game took 1,206 actions. The cap is about 83 times that.</p>
+<h2>An older layer: checks on the state after every action</h2>
+<p>Crashing on a rejected move catches one kind of bug. The August 2026 test report describes a stricter layer. Across 3,600 random-play games it asserted invariants after every action, meaning facts about the state that must always hold, not just the verdict of the move. In a separate run of 6,000 games it counted die faces and got a chi-squared value of 5.29 over about 2.9 million throws, a p-value near 0.38. The die was not loaded.</p>
+<p>The state checks are what catch a stuck game. The reducer even carries a comment about one: a phase that says "choose a piece" with no number showing is a deadlock, not a state. A crash-only runner would never see it, because nothing was rejected. The table would just wait.</p>
+<h2>Where the runner is weak</h2>
+<p>The runner has two practical flaws. It lives in a research folder, not in the package scripts, and it imports the engine from an absolute path in a separate design checkout. Only the Snakes and Ladders simulation has an npm command. So the Ludo run cannot be repeated from a clean copy without editing paths.</p>
+<p>That repeats an old lesson. The August harness was kept outside the repo and later deleted, so only its report survives. A test you cannot rerun is a claim, not a check.</p>
+<h2>A checklist for your own game engine</h2>
+<p>If you keep the rules behind Ludo online, or any board game, copy this:</p>
+<ol><li>Make the engine one pure function, with the die and clock passed in.</li><li>Seed every game and print the seed in every error.</li><li>Throw on the first rejected action. Do not count rejections and carry on.</li><li>Choose a game count that divides by every seat count.</li><li>Put the runner in the repo and give it an npm script.</li></ol>
+<p>Item five is the one I have not done yet for Ludo.</p>
+<p><em>Ahmed Moaz makes Boardit, a free browser game site.</em></p>
+</article>
+</main>
+<footer><p>Written by Ahmed Moaz.</p></footer>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Is &#x27;move the furthest piece&#x27; really a weak strategy? Reading a Ludo simulation honestly</title>
+<meta name="description" content="A hand-scored Ludo player lost to a simple rule that moves the furthest piece. That tempts a Ludo strategy headline: furthest-piece must be strong. It is t">
+<link rel="canonical" href="https://ludo-table.ahmedalkattan105.deno.net/is-move-the-furthest-piece-really-a-weak-strategy-reading-a-ludo-simulation-hone/">
+<style>body{max-width:44rem;margin:2rem auto;padding:0 1rem;font:17px/1.65 -apple-system,Segoe UI,Roboto,sans-serif;color:#222;background:#fff}a{color:#0b5cad}h1{font-size:1.75rem;line-height:1.25}h2{font-size:1.25rem;margin-top:2rem}table{border-collapse:collapse;margin:1rem 0}td,th{border:1px solid #ccc;padding:.3rem .5rem;text-align:left}header,footer{font-size:.9rem;color:#666}code{background:#f3f3f3;padding:0 .2rem}</style>
+</head>
+<body>
+<header><a href="/">Ludo at the Table</a> &middot; by Ahmed Moaz &middot; <a href="/about/">About</a></header>
+<main>
+<article>
+<h1>Is &#x27;move the furthest piece&#x27; really a weak strategy? Reading a Ludo simulation honestly</h1>
+<p><small>Ahmed Moaz &middot; 14 October 2026</small></p>
+<p>A hand-scored Ludo player lost to a simple rule that moves the furthest piece. That tempts a Ludo strategy headline: furthest-piece must be strong. It is the wrong conclusion. The simulation compared two rules with each other. It did not measure how good either one is, and the difference matters whenever you quote a win rate.</p>
+<p>Here is how to read the numbers without stretching them.</p>
+<h2>What was compared with what</h2>
+<p>On 29 September 2026 the live Ludo engine of a site I build played 30,024 computer-played games, 10,008 at each of three table sizes. One seat was a test player that scored every legal move. The other seats played a plain order: capture if you can, finish a piece if you can, leave base on a six, otherwise move the furthest piece. Every roll and move went through the real rules engine with a seeded die, and the scored seat rotated evenly.</p>
+<p>The games used the standard Ludo rules the site plays. Two things follow. First, this is computer play, so it says little about how people choose. Second, the question was never "is furthest-piece good?" It was "does the scored player beat it?" The answer was no, at every table size.</p>
+<table><thead><tr><th>Table</th><th>Scored player's win rate</th><th>Even share</th></tr></thead><tbody><tr><td>2 seats</td><td>46.40%</td><td>50.00%</td></tr><tr><td>3 seats</td><td>27.69%</td><td>33.33%</td></tr><tr><td>4 seats</td><td>18.03%</td><td>25.00%</td></tr></tbody></table>
+<h2>How far below even is "below"?</h2>
+<p>The "even share" is the win rate you would expect if all seats were equally good: one in two, one in three, one in four. Any run lands a little off it by chance, so the useful question is whether the gap is bigger than chance.</p>
+<p>Here is the check for two seats, worked by hand. The standard error of a share near one half over 10,008 games is the square root of 0.5 × 0.5 ÷ 10,008, which is about 0.50 percentage points. The scored player sat 3.6 points under even, so about seven standard errors away. A 95% Wilson interval around 46.40% runs from 45.43% to 47.38%, and 50% is nowhere near it. I recomputed the same interval at the other two sizes and matched the run's figures: 26.82% to 28.57% for three seats and 17.28% to 18.79% for four.</p>
+<p>In games, the scored player fell 360 wins short of even at two seats, 565 at three and 698 at four. That is not noise.</p>
+<p>The rules those games were played under, one die, eight safe squares and pairs that shelter without blocking, are on the Ludo page at <a href="https://playboardit.com/play/ludo">playboardit.com/play/ludo</a>.</p>
+<h2>Does finishing last tell a different story?</h2>
+<p>Win rate counts only first place. The run also saved the scored player's finishing place, which gives a second view of the same games. At four seats the counts were 1,804 firsts, 2,205 seconds, 2,692 thirds and 3,307 lasts. Its average place was 2.75, against 2.50 for an even share, and it finished last in 33.0% of games, against 25%.</p>
+<p>The pattern is the same at the other sizes: an average place of 1.54 at two seats (even is 1.50) and 2.12 at three (even is 2.00). So the scored player did not merely miss the podium. It slid down the whole table.</p>
+<h2>Is "move the furthest piece" a weak strategy?</h2>
+<p>The data cannot say. The furthest-piece rule was the yardstick, never the subject. To call it weak, you would need to show it losing to something. To call it strong, you would need to show it beating something other than one hand-scored rule. Neither test was run, including the obvious one against moves chosen at random.</p>
+<p>A yardstick changes the verdict. Suppose, purely as an illustration, that the scored player had beaten a random mover most of the time. We would call it strong. Yet against furthest-piece it falls short of even. The same player can look strong against one opponent and below par against another, so a win rate describes a pairing, not a player.</p>
+<p>There is also a dilution effect. When only one move is legal, the engine plays it immediately, so those turns are identical for every kind of player. Any difference in strategy shows up only on the turns with a real choice.</p>
+<p>None of this shows that pairing or safe squares are worthless in Ludo. The scored player valued both, and it lost. That is a verdict on one set of weights, not on the ideas behind them.</p>
+<h2>What would change my mind</h2>
+<p>Three further runs would answer the question better than any argument:</p>
+<ul><li>Add a distance term to the scored player and run the same 30,024 games again. If it catches up, the old result was about progress.</li><li>Play furthest-piece against random moves. That would show whether it is strong or merely less weak than the scorer.</li><li>Compare any of this with records of people, whether they play Ludo online or Ludo with friends in person. Computer play can only suggest what to look for.</li></ul>
+<p>Until then, the honest reading is narrow: one clever-looking rule lost to a plain one, by a margin chance does not explain.</p>
+<p><em>By Ahmed Moaz, who builds Boardit.</em></p>
+</article>
+</main>
+<footer><p>Written by Ahmed Moaz.</p></footer>
+</body>
+</html>

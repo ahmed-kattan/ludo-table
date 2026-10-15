@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Climbs and slides per game: about 4.8 up and 5.4 down with two players</title>
+<meta name="description" content="A two-player game of Snakes and Ladders, played to the end on a standard board, meets about 4.8 ladders and 5.4 snakes. With four players the pattern flips">
+<link rel="canonical" href="https://ludo-table.ahmedalkattan105.deno.net/climbs-and-slides-per-game-about-4-8-up-and-5-4-down-with-two-players/">
+<style>body{max-width:44rem;margin:2rem auto;padding:0 1rem;font:17px/1.65 -apple-system,Segoe UI,Roboto,sans-serif;color:#222;background:#fff}a{color:#0b5cad}h1{font-size:1.75rem;line-height:1.25}h2{font-size:1.25rem;margin-top:2rem}table{border-collapse:collapse;margin:1rem 0}td,th{border:1px solid #ccc;padding:.3rem .5rem;text-align:left}header,footer{font-size:.9rem;color:#666}code{background:#f3f3f3;padding:0 .2rem}</style>
+</head>
+<body>
+<header><a href="/">Ludo at the Table</a> &middot; by Ahmed Moaz &middot; <a href="/about/">About</a></header>
+<main>
+<article>
+<h1>Climbs and slides per game: about 4.8 up and 5.4 down with two players</h1>
+<p><small>Ahmed Moaz &middot; 15 October 2026</small></p>
+<p>A two-player game of Snakes and Ladders, played to the end on a standard board, meets about 4.8 ladders and 5.4 snakes. With four players the pattern flips: about 7.6 ladders and 7.3 snakes. Those figures come from 100,000 simulated games for each seat count, and they say something odd about luck. In a Snakes and Ladders game the board does not trade evenly, and the balance depends on how many people are playing.</p>
+<h2>How the games were played</h2>
+<p>The simulation feeds a seeded die, seed 20261003, through the same rules engine that runs a live Snakes and Ladders online table. Nothing is guessed. A game ends when a counter lands exactly on square 100, and the count stops there.</p>
+<p>If you search for Snakes and Ladders probability, this is the empirical version. There is no strategy to test. After the die rolls, every move is forced, so the only things to measure are game length, the turn-order edge and how often the board's jumps are hit. The board carries ten snakes and nine ladders, and 19 of its 100 squares start a jump.</p>
+<h2>What the table says</h2>
+<table><thead><tr><th>Seats</th><th>Climbs a game</th><th>Slides a game</th><th>Climbs, share of jumps</th><th>Throws a game</th></tr></thead><tbody><tr><td>2</td><td>4.84</td><td>5.36</td><td>47.4%</td><td>52.2</td></tr><tr><td>3</td><td>6.28</td><td>6.40</td><td>49.5%</td><td>64.1</td></tr><tr><td>4</td><td>7.65</td><td>7.34</td><td>51.0%</td><td>75.4</td></tr></tbody></table>
+<p>Each row averages 100,000 games and counts every counter's jumps. Divide by the seats: with two players each counter climbs 2.4 times and slides 2.7 times. In a four-player game it is 1.9 climbs and 1.8 slides each.</p>
+<h2>Why snakes lead with two and ladders with four</h2>
+<p>Start with the board. Nine ladders add up to 210 squares of climbing, an average of 23.3. Ten snakes add up to 242 squares of falling, an average of 24.2. There are more snakes, and they drop slightly further.</p>
+<p>Now look at where they sit. Seven of the ten snake heads are above square 50, and so are only three of the nine ladder feet. The three snakes at 93, 95 and 98 sit within seven squares of the finish. Because square 100 has to be hit exactly, counters spend extra throws up there, among those three heads. The longer a counter lives, the more of those snakes it plausibly meets.</p>
+<p>At two seats the pattern is plain. The climbs are 47.4 per cent of all jumps, and nine ladders out of 19 jump squares is 47.4 per cent. The simulation shows the board's own proportions.</p>
+<p>At four seats the share rises to 51.0. My reading is that this is a selection effect. The game ends when the first counter finishes, and with four players the first to finish is the luckiest of four, a counter that climbed a lot and slid little. The other three are stopped part-way, wherever they happen to stand. The file does not split the winner's jumps from the others', so this is a reading, not a proof; a calculation further down supports its direction.</p>
+<p>The board these figures come from is the one on <a href="https://playboardit.com/play/snakes-and-ladders">Boardit's Snakes and Ladders</a> page, free to open in a browser.</p>
+<h2>How many ladders will I climb in one game?</h2>
+<p>About 2.4 ladders and 2.7 snakes per player in a two-player game, and about 1.9 ladders and 1.8 snakes per player in a four-player one. Those are averages over many games. Any single game will differ: the median winner needs 23 throws with two players and 18 with four.</p>
+<h2>A lone counter, worked out exactly</h2>
+<p>There is a second way to check the direction of that selection effect, and it needs no simulation. Counters never interact: nothing is captured, and squares can hold any number of them. So one counter's journey can be worked out exactly, square by square, by pushing the probabilities forward throw by throw. That is a standard Markov-chain calculation, and I ran it for this piece.</p>
+<p>A single counter playing alone to square 100 takes 39.2 throws on average. It climbs 3.32 times and slides 4.22 times, so 44.0 per cent of its jumps are climbs. Compare that with the table: 47.4 per cent in a two-player game and 51.0 per cent in a four-player game. The share of climbs rises as the game becomes a contest between more counters, and falls to its lowest when every counter is left to finish. That fits the idea that a game is ended by the luckiest counter in it, though it still does not prove the winner's own share.</p>
+<p>I also re-ran 60,000 games each at two and four seats with a separate script. It gave 4.85 climbs, 5.38 slides and 52.2 throws for two seats, and 7.66, 7.36 and 75.6 for four, within 0.03 of the file on climbs and slides and within 0.2 of a throw on length. Two programs written separately agreeing is a better reason to trust a table than one program agreeing with itself.</p>
+<h2>A sanity check: one throw in five</h2>
+<p>Does the simulation agree with plain arithmetic? If a counter landed on every square equally often, 19 squares out of 100 would trigger a jump, so 19 per cent of throws. The simulation gives 19.5 per cent at two seats, 19.8 at three and 19.9 at four. The small excess is probably the exact-finish rule and the crowd of snakes at the top, but that is a guess, not a result.</p>
+<p>That is a useful test of any simulation. If its jump rate had come out at 12 or 30 per cent, I would have looked for a bug before believing a word of the table.</p>
+<p><em>Ahmed Moaz builds Boardit, a free browser game site.</em></p>
+</article>
+</main>
+<footer><p>Written by Ahmed Moaz.</p></footer>
+</body>
+</html>

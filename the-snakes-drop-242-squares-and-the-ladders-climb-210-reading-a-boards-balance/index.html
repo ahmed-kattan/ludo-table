@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The snakes drop 242 squares and the ladders climb 210: reading a board&#x27;s balance</title>
+<meta name="description" content="Add up the board of a Snakes and Ladders game and the snakes win. Ten snakes drop a counter 242 squares in total. Nine ladders lift it only 210. But a coun">
+<link rel="canonical" href="https://ludo-table.ahmedalkattan105.deno.net/the-snakes-drop-242-squares-and-the-ladders-climb-210-reading-a-boards-balance/">
+<style>body{max-width:44rem;margin:2rem auto;padding:0 1rem;font:17px/1.65 -apple-system,Segoe UI,Roboto,sans-serif;color:#222;background:#fff}a{color:#0b5cad}h1{font-size:1.75rem;line-height:1.25}h2{font-size:1.25rem;margin-top:2rem}table{border-collapse:collapse;margin:1rem 0}td,th{border:1px solid #ccc;padding:.3rem .5rem;text-align:left}header,footer{font-size:.9rem;color:#666}code{background:#f3f3f3;padding:0 .2rem}</style>
+</head>
+<body>
+<header><a href="/">Ludo at the Table</a> &middot; by Ahmed Moaz &middot; <a href="/about/">About</a></header>
+<main>
+<article>
+<h1>The snakes drop 242 squares and the ladders climb 210: reading a board&#x27;s balance</h1>
+<p><small>Ahmed Moaz &middot; 15 October 2026</small></p>
+<p>Add up the board of a Snakes and Ladders game and the snakes win. Ten snakes drop a counter 242 squares in total. Nine ladders lift it only 210. But a counter does not land on every square equally often, so those sums are the wrong scale. A better balance weighs each jump by how often a player actually lands on it.</p>
+<p>Below is that weighting for one standard board, worked out exactly. It shows that the paper balance is about right, that a few jumps carry most of the swing, and that the last rule of the game, the exact throw, quietly adds three throws to every journey.</p>
+<h2>The paper balance</h2>
+<p>The board has 9 ladders and 10 snakes, spread over 100 squares. Each ladder's gain is its top minus its foot:</p>
+<ul><li>Ladders: 37, 10, 22, 21, 56, 8, 16, 20 and 20, which sum to 210.</li><li>Snakes: 10, 21, 38, 3, 43, 4, 63, 20, 20 and 20, which sum to 242.</li></ul>
+<p>On average a ladder lifts 23.3 squares and a snake drops 24.2. Snakes are slightly more numerous and slightly longer. On paper the board leans downhill by 32 squares.</p>
+<p>The history of the game is a moral one. The Wikipedia entry traces it to India as Moksha Patam, with ladders for virtues and snakes for vices, and notes that Indian boards had more snakes than ladders. Victorian English makers used equal numbers instead. The board in this piece has one more snake than ladders.</p>
+<h2>What the dice do with it</h2>
+<p>A jump only matters if you land on its square. The Wikipedia entry also notes that any version can be modelled as an absorbing Markov chain, so I did that. The chain has 101 states, from square 0 to square 100, and gives the expected throws and how many times a lone player lands on each jump per game. The rules are the ones the engine uses: one die, a jump taken the moment you land, and an exact throw needed to finish.</p>
+<p>The six biggest swings:</p>
+<table><thead><tr><th>Jump</th><th>Size</th><th>Landings per game</th><th>Squares moved per game</th></tr></thead><tbody><tr><td>Ladder 28 to 84</td><td>+56</td><td>0.576</td><td>+32.2</td></tr><tr><td>Snake 87 to 24</td><td>-63</td><td>0.525</td><td>-33.1</td></tr><tr><td>Snake 49 to 11</td><td>-38</td><td>0.579</td><td>-22.0</td></tr><tr><td>Snake 47 to 26</td><td>-21</td><td>0.673</td><td>-14.1</td></tr><tr><td>Snake 62 to 19</td><td>-43</td><td>0.259</td><td>-11.2</td></tr><tr><td>Ladder 80 to 100</td><td>+20</td><td>0.483</td><td>+9.7</td></tr></tbody></table>
+<p>Over all 19 jumps, a lone player climbs 80.2 squares per game and drops 109.8. That is 3.3 climbs and 4.2 slides. The net is about 30 squares downhill, close to the 32 on paper.</p>
+<p>So the paper balance is a good guide to the total. It is a poor guide to any single jump. The longest ladder and the longest snake nearly cancel, but the ladder at square 1 gives only 6.2 squares a game, because you land on square 1 only if your first throw is a one.</p>
+<h2>How long does Snakes and Ladders online take?</h2>
+<p>On this board a lone player needs about 39.2 throws to reach square 100. In a 2 player game the winner needs about 26 throws, and the two seats together throw about 52 times. With three and four seats the winner's mean falls to 21.7 and 19.2 throws, from 100,000 simulated games each.</p>
+<p>I checked my chain against the project's own simulation of 100,000 simulated two-player games. It reports 26.33 throws for the winner, 52.16 throws in all, 4.835 climbs and 5.357 slides. A quick replay of 100,000 games in a script of my own gave 26.27, 52.03, 4.84 and 5.35. The same simulation puts the first seat's win rate at 50.55%, a half-point edge.</p>
+<p>A second check uses outside numbers. The Wikipedia entry quotes about 35.8 spins on average for the Milton Bradley board, which has 100 squares and 19 chutes and ladders. If I let any overshoot count as a finish, my chain gives 35.83 on the same layout. Milton Bradley is not connected to Boardit.</p>
+<p>The same hundred squares are free to play with friends on <a href="https://playboardit.com/">this online table</a>, for up to eight players.</p>
+<h2>The cost of the exact throw</h2>
+<p>With the exact-throw rule, the same board takes 39.2 throws, not 35.8. A counter on square 97 wins only with a three, one throw in six, and a one drops it down the snake at 98. The extra throws are not wasted: they also raise the four snakes above square 86 from 1.45 landings a game to 1.66.</p>
+<p>This is the rule that decides the game's shape. Without any jumps at all, the board would take 33.3 throws. Ladders only would cut that to 21.8. Snakes only would stretch it to 118.1. The real board, with both, lands at 39.2: the ladders cancel most of what the snakes add.</p>
+<h2>Reading any other board</h2>
+<p>You can do the same with a board you draw yourself:</p>
+<ol><li>List each jump's foot and top.</li><li>Find the chance of landing on each foot, which needs a small chain calculation or a simulation.</li><li>Multiply by the distance the jump moves.</li><li>Add the ups and the downs.</li><li>Compare to the plain sum. If the two differ, the board has a hidden bias towards its late squares.</li></ol>
+<p>There is no choice to make in the game, so the board is the whole design. That is why the numbers are worth reading.</p>
+<p><em>By Boardit's maker, Ahmed Moaz.</em></p>
+</article>
+</main>
+<footer><p>Written by Ahmed Moaz.</p></footer>
+</body>
+</html>
